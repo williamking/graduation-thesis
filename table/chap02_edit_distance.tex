@@ -1,0 +1,14 @@
+\begin{table}[h] %voc table result
+	\centering
+	\caption{编辑距离的说明}
+	\begin{tabular}{ c c p{6cm} c }
+		\toprule
+		字符串1 & 字符串2 & 采用操作 & 编辑距离 \\
+		\midrule
+		123456 & 12456 & 插入，在字符串2的第2个字符后插入3 & 1 \\
+		12345 & 12346 & 替换，将字符串2的第5个字符替换为6 & 1 \\
+		123456 & 133466 & 替换，将字符串2的第二个字符替换为2，第5个字符替换为5 & 2 \\
+		123 & 1235 & 删除，将字符串2的第4个字符删除 & 1 \\
+		\bottomrule
+	\end{tabular}
+\end{table}

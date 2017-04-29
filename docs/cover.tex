@@ -1,25 +1,24 @@
 %% Chinese and English title %%
 % 封面论文题目. 换行使用换行符("\\")
 \title{
-    中山大学 \\
-    本科毕业论文非正式模版
+    基于黑盒测试和编辑距离算法的程序填空题自动评测系统的设计和实现
 }
-\ctitle{中山大学本科毕业论文非正式模版}     % 的图像语义分割???
-\etitle{Unofficial LaTex Template for Undergraduate Thesis of SYSU}% 英文论文题目
+\ctitle{基于黑盒测试和编辑距离算法的程序填空题自动评测系统的设计和实现}     % 的图像语义分割???
+\etitle{Design and Implementation of Automatic Test System of Program Filling Problem based on Black Box Test and Edit Distance Algorithm}% 英文论文题目
 %% Detail information of the author
-\author{陈冠英}%作者
-\cauthor{陈\ 冠\ 英}%封面上作者（各字符间可加空白）
-\eauthor{Chen Guanying}%封面上作者（各字符间可加空白）
-\studentid{12350004}%学号
-\cschool{电子与信息工程学院}%院（系）
-\cmajor{自动化}%专业
-\emajor{Automation}
-\cmentor{林倞\ 教授}%指导老师
-\ementor{Prof. Lin Liang}%指导老师
+\author{王嘉威}%作者
+\cauthor{王\ 嘉\ 威}%封面上作者（各字符间可加空白）
+\eauthor{Wang Jiawei}%封面上作者（各字符间可加空白）
+\studentid{13331251}%学号
+\cschool{数据科学与计算机学院}%院（系）
+\cmajor{软件工程}%专业
+\emajor{Software Engineering}
+\cmentor{万海\ 副教授}%指导老师
+\ementor{A/Prof. Wan Hai}%指导老师
 
 %% Chinese and English keywords %%
-\ckeywords{本科毕业论文；LaTex模板；中山大学}%中文关键词(每个关键词之间用“;”分开,最后一个关键词不打标点符号。)
-\ekeywords{undergraduate thesis, LaTex template, Sun Yat-Sen University}%英文关键词
+\ckeywords{程序填空;代码评测;文本相似度}%中文关键词(每个关键词之间用“;”分开,最后一个关键词不打标点符号。)
+\ekeywords{program filling;code judging;text similarity}%英文关键词
 
 %% all kinds of tables %%
 
@@ -27,9 +26,9 @@
 %% 1. state the problem, your approach and solution, and the main contributions of the paper. Include little if any background and motivation. Be factual but comprehensive. The material in the abstract should not be repeated later word for word in the paper.
 \cabstract{
 %state the problem
-摘要内容应概括地反映出本论文的主要内容，主要说明本论文的研究目的、内容、方法、成果和结论。要突出本论文的创造性成果或新见解，不要与引言相混淆。语言力求精练、准确，以300—500字为宜。在摘要的下方另起一行，注明本文的关键词（3—5个）。关键词是供检索用的主题词条，应采用能覆盖论文主要内容的通用技术词条(参照相应的技术术语标准)。按词条的外延层次排列（外延大的排在前面）。摘要与关键词应在同一页。
+随着在线课程管理系统Matrix在数据科学与计算机学院的上线和应用，以程序评测为主功能，各种新型题目的在线评测实现需求也被提出。其中程序填空题便是重要的一环，传统程序填空题的评分一般都由人为进行，人为评分的缺点在于效率的低下。程序填空题主观性不强，答案较为固定，人为进行评分并没有体现出优越性，这自动评测需求出现的原因。程序填空题自动评测的难点在于虽然答案的主观性不强，但也存在各种语义性等价答案，并且也需要对部分错误的填空给出部分的分数，而不是该空出现错误就完全不给分。所以总结起来，程序填空需要应对的较难处理的答案分为等效答案以及部分得分答案两种。对于前者，可使用填空代码，并对代码进行评测，看评测的结果解决，后者通过与标准答案进行相似度比对，计算所得分解决。经过基于Matrix评测系统，将理论的算法应用到系统的评测逻辑的工作后，程序填空的评测功能已实装到Matrix应用中，并用于某课程的期末考试之中。根据评测的结果，虽然有些评分仍存有不合理，需要人为评分修改的地方，但这是程序填空评测算法探索的关键一步。之后对于实用结果的不合理性，对算法进行了进一步的改进，并用之前学生提交的答案数据再一次进行了评测，与改进前相比，准确性提高了许多。本文第一次尝试将普通的程序评测与传统的填空题评测的算法相结果，具有第一步的尝试意义，对于之后的程序填空算法的研究探索，有一定的参考价值。
 }
 \eabstract{
-英文摘要内容与中文摘要相同，以250—400个实词为宜。摘要下方另起一行注明英文关键词（Keywords3—5个）。
+As the online judge system, Matrix, was published and used in the courses of the School of Data and Computer Science. The requirement of developing new function of judging new type programs based on the judge system of Matrix was put forward, in which judging program filling problems was an important part. In tradition, program filling problems are graded by human, which is not effective because program filling problem is not a subjective problem, the answers of the problem are not variable. So it can be judge by the computer. However, there are also some difficulties in the research. Although the answers of program filling problem are fixed, there are also some possible equivalent answers that may appeared. On the other hand, when the answer of the student is not equal to the standard answer, such as the answer lack of a semicolon compared to the standard one, the answer should get part of the grades. To solve these two situations, two solutions were put forward. One is judging the program with the filling answers of student, the other is computing the similarity between the student answer and the standard answer. With the work of applying the algorithm to the judge system of Matrix, the function was achieved in Matrix application and was applied to the exam. However, there were also some problems in the judging results of the exam, which make it need to be corrected by human. But it is an important step of this research. According to the insufficient of the results, some improvements were applied to the judging algorithm. With the compared of the judging results using the data of student submissions of the exam, the improved algorithm had better effects.  The paper firstly combine the program judging algorithm with the similarity algorithm, different from the traditional algorithm of judging program filling problem, which mainly only use similarity algorithm. So this paper has some reference value for the research of judging algorithm of program filling problem.
 }
 \endinput

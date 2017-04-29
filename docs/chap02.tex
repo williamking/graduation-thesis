@@ -1,99 +1,334 @@
-\chapter{简单的使用例子}
-\label{cha:example}
-\section{图像的插入}
-\subsection{镶嵌在文中的图像}
-\label{sec:Images}
-\begin{wrapfigure}{r}{0.5\linewidth}
-	\centering
-	\includegraphics[width=0.5\textwidth]{image/result/confusion.pdf}
-	\caption{镶嵌在文中的图像}
-	\label{fig:confusion}
-\end{wrapfigure}
-论文主体是毕业论文的主要部分，必须言之成理，论据可靠，严格遵循本学科国际通行的学术规范。在写作上要注意结构合理、层次分明、重点突出，章节标题、公式图表符号必须规范统一。论文主体的内容根据不同学科有不同的特点，一般应包括以下几个方面： （1）毕业论文（设计）总体方案或选题的论证； （2）毕业论文（设计）各部分的设计实现，包括实验数据的获取、数据可行性及有效性的处理与分析、各部分的设计计算等； （3）对研究内容及成果的客观阐述，包括理论依据、创新见解、创造性成果及其改进与实际应用价值等； （4）论文主体的所有数据必须真实可靠，凡引用他人观点、方案、资料、数据等，无论曾否发表，无论是纸质或电子版，均应详加注释。自然科学论文应推理正确、结论清晰；人文和社会学科的论文应把握论点正确、论证充分、论据可靠，恰当运用系统分析和比较研究的方法进行模型或方案设计，注重实证研究和案例分析，根据分析结果提出建议和改进措施等。
-\subsection{单张图像的插入}
-\input{figure/chap03_hole}
-
-\subsection{多张图像的并排插入}
-\label{sub:多张图像的并排插入}
-\input{figure/chap01_example}
-\input{figure/chap04_improve.tex}
-
-\subsection{两列图像的插入}
-\label{sec:complex}
-\input{figure/chap04_voc12_comparison}
-
-\clearpage
-
-\section{表格的插入}
-\label{sec:tables}
-\input{table/chap04_siftflow_result}
-\input{table/chap04_voc_val}
-
-\section{公式}
-\label{sec:formula}
-没有编号的公式
-\begin{align*}
-\begin{split}
-	\label{eq:feedforward}
-	\mybold{z}^{(l)} & = \mybold{W}^{(l)}\mybold{a}^{(l-1)} + \mybold{b}^{(l)} \\
-	\mybold{a}^{(l)} & = f(\mybold{z}^{(l)})
-\end{split}
-\end{align*}
-公式中含有中文
-\begin{align}
-	\begin{split}
-	\mbox{像素准确率} &= \sum_{i=1}^{n_{cl}}n_{ii} / \sum_{i=1}^{n_{cl}}t_i \\
-		\mbox{平均像素准确率} &= \frac{1}{n_{cl}} \sum_{i=1}^{n_{cl}}(n_{ii}/ t_i) \\
-	\mbox{Mean IU} &= \frac{1}{n_{cl}} \sum_{i=1}^{n_{cl}}\frac{n_{ii}}{t_i + \sum_j^{n_{cl}} n_{ji} - n_{ii}}
-	\end{split}
-\end{align}
-公式中含有矩阵
-\begin{equation}
-	\textbf{H} = \begin{bmatrix}
-		I*\mybold{x}_i \\ \textbf{h}
-	\end{bmatrix}
-\end{equation}
-每行后面都有编号的公式
-\begin{align}
-	\frac{\partial}{\partial W_{ij}^{(l)}} J(\mybold{W},\mybold{b};\mybold{x},y) &= \frac{\partial J(\mybold{W},\mybold{b};\mybold{x},y)}{\partial z_i^{(l+1)}}\cdot \frac{\partial z_i^{(l+1)}}{\partial W_{ij}^{(l)}} = \delta_i^{(l+1)}a_j^{(l)} \\
-	\frac{\partial}{\partial b_i^{(l)}} J(\mybold{W},\mybold{b};\mybold{x},y) &= \frac{\partial J(\mybold{W},\mybold{b};\mybold{x},y)}{\partial z_i^{(l+1)}}\cdot \frac{\partial z_i^{(l+1)}}{\partial b_i^{(l)}} = \delta_i^{(l+1)}
-\end{align}
-
-\section{算法流程图}
-\label{sec:algorithm}
+\chapter{预备知识}
+\label{cha:prepare-knowledge}
+在这一章中，我们将介绍程序填空评测相关领域的一些研究的算法以及概念知识。
+根据一章中对程序填空题的特性分析，可以应用到程序填空评测的算法
+可归类动态测试和静态分析两种。
+下面对这两种相关算法进行阐述。
+\section{动态测试}
+动态测试是程序设计题评测所使用的最基本的评测方式。使用黑盒测试的方式，
+将学生提交的代码作为黑盒，使用测试输入样例运行程序，对比输出结果和标准程序
+对应输出是否一致。
+\subsection{基本动态测试}
+Matrix系统现今使用基本的基于黑盒测试的动态测试算法。该算法广泛应用于
+多种在线程序评测网站平台。
+基本的评测流程如算法\ref{algo:dynamic_test}
 \begin{algorithm}[h]
-\KwIn{$m$个训练样本}
-\lFor{$l=1$ \emph{\KwTo} $n_l$}{
-初始化：$\Delta \mybold{W}^{(l)}=0$，$\Delta \mybold{b}^{(l)}=0$}
-\ForEach{训练样本}{
-	\lFor{$l=1$ \emph{\KwTo} $n_l-1$}{
-	前向传播：$\mybold{z}^{(l+1)}=\mybold{W}^la^l+\mybold{b}^l$,$\mybold{a}^{(l+1)}=f(\mybold{z}^{(l+1)})$}
-	输出误差计算：$\delta^{(n_l)} = \frac{\partial}{\partial \mybold{z}^{(n_l)}} J(\mybold{W},\mybold{b};\mybold{x},y)$\;
-	\lFor{$l=n_l-1$ \emph{\KwTo} $1$}{
-	后向传播：$\delta^{(l)} = \bigl((\mybold{W}^{(l)})^T \delta^{(l+1)}\bigr)f'(\mybold{z}^{(l)})$}
-	\ForAll{层l}{
-		计算梯度：$\nabla_{\mybold{W}^{(l)}}J(\mybold{W},\mybold{b};\mybold{x},y)=\delta^{(l+1)}(\mybold{a}^{(l)})^T$ \\
-		\hspace{60pt}$\nabla_{\mybold{b}^{(l)}}J(\mybold{W},\mybold{b};\mybold{x},y)=\delta^{(l+1)}$\;
-		累加梯度：$\Delta \mybold{W}^{(l)} \leftarrow \Delta \mybold{W}^{(l)} + \nabla_{\mybold{W}^{(l)}}J(\mybold{W},\mybold{b};\mybold{x},y)$; \\
-		\hspace{60pt}$\Delta \mybold{b}^{(l)} \leftarrow \Delta \mybold{b}^{(l)} + \nabla_{\mybold{b}^{(l)}}J(\mybold{W},\mybold{b};\mybold{x},y)$\;
+	\KwIn{学生提交代码}
+	\KwOut{程序评测分数$grade$}
+	编译学生提交代码
+
+	\If{代码编译成功} {
+	  \ForAll{题目标准测例中的每个输入} {
+      评测系统使用标准测例输入运行学生程序
+
+			\If{学生代码成功运行并得到输出} {
+	      对比代码输出与标准测例输出
+
+				记录评测报告
+
+				\If{输出一致} {
+			    $grade = grade + $该测例的分值
+			  }
+	    }
+	  }
 	}
+  \caption{基本动态测试算法}
+  \label{algo:dynamic_test}
+\end{algorithm}
+
+算法\ref{algo:dynamic_test}为简化版的动态测试，
+由于在程序填空题中的题目的复杂性较低，因此未考虑内存消耗以及运行时间等问题，
+这几点因素均采用预设的默认的标准值，不计入采分点。
+该算法优点在于容易判断程序等价性，缺点是考试评测的程序中往往存
+在词法或语法错误，或常常由于语义错误（如多写了一个分号）导致死循环或无法通
+过编译，得不到执行结果，导致得分为零，违背了程序填空题的评分的容错性。
+\subsection{改进的动态测试}
+基本动态测试的问题在于对无法执行出结果的程序或者因部分内容错误导致输出结果产生偏差的
+程序，无法进行容错性评分。
+因此出现了通过将语法编译不通过的答案修整为可编译执行的
+语句或表达式的思路。
+该算法依据程序语言的语法特性，在保证不对答案正确部分产生破
+坏的前提下，尽最大可能修正答案的语法错误，转换为可执行的表达式或语句填入程序进
+行评测。
+
+% \input{figure/chap03_hole}
+
+目前对程序进行语法修复的方法有基于 LR 文法的语法修复\cite{Barnard1982Hierarchic}
+和基于搜索、基于代码穷举、基于约束求解的方法\cite{xuan2016}。
+更深入的研究则有基于云计算来改善代码的
+运行性 bug（死循环、内存泄漏等）\cite{Goues2012A}。
+
+结合程序修复的动态测试算法如下:
+
+\begin{algorithm}[h]
+	\KwIn{学生提交代码}
+	\KwOut{程序评测分数$grade$}
+	编译学生提交代码
+
+	\If{代码编译失败} {
+	  使用程序修复算法修复代码，计算出修复补正系数(0-1)，
+		程序的语法错误性越高，补正系数越低。
+	} \Else {
+	  程序修复补正系数为1。
+	}
+
+	\ForAll{题目标准测例中的每个输入} {
+    评测系统使用标准测例输入运行学生程序
+
+		\If{学生代码成功运行并得到输出} {
+	    对比代码输出与标准测例输出
+
+			记录评测报告
+
+			\If{输出一致} {
+			  $grade = grade + $该测例的分值
+			}
+	  }
+	}
+
+	$grade = grade * $程序修复补正系数
+  \caption{改进后的动态测试算法}
+  \label{algo:dynamic_test}
+\end{algorithm}
+
+该算法解决了基本测试算法对答案的可编译性限制，可以应对程度较轻编译语法错误的
+答案的动态测试。
+然而该算法应用难点在于修复补正系数的计算，算法语义补正规则比较复杂，
+并且该算法无法解决因非编译性语法错误导致的结果偏差。
+
+\section{静态分析}
+静态分析，是指不运行软件或代码，对程序代码进行分析\cite{zhangjian2008}。
+在程序填空的评测上，应用方式为对学生提交的答案（语句或表达式）和标准答案进行分析，
+根据分析得出的处理结果进行对比，根据对比相似度得出分数。
+
+\subsection{编辑距离算法}
+编辑距离算法是一种经典的相似度比对算法。这种比对算法可运用于各种数据
+结构，比如基于树的相似度比对\cite{Bille2005A}、集合的相似度比对\cite{linxuemin2011}。
+字符串到目标字符串的编辑距离就是计算从原字符串串转换到目标字符串所需要的最少插入、删除和替换的
+数目，此算法是由俄国科学家Levenshtein提出的，故又叫Levenshtein算法。
+
+下面给出编辑距离具体的数学定义\cite{Marzal1993Computation}：
+\begin{edit_distance}[编辑距离]
+	对于一个符号对$(a,b)\not\equiv(\lambda,\lambda)$，其中 a,b 都是长度为 0 或 1 的字符串，
+	相对的，对$(a,b)$的编辑操作写作$a\rightarrow b$，这样的编辑操作称为单位编辑操作
+	（elementary edit operation）。
+\end{edit_distance}
+
+单位编辑操作有三种，分别是插入，替换和删除。
+
+\begin{edit_transform}[编辑转换]
+	从X到Y的编辑转换是将符号序列X转换到Y所需的一串单位编辑操作序列S。
+\end{edit_transform}
+
+单位编辑转换可以被一个任意权函数$\gamma$加权，该函数对每个单位操作$a \rightarrow b$赋予一
+个非负的实数值$\gamma ( a \rightarrow b ) $。该函数可以通过
+$\gamma ( S ) = \sum\limits_{i=1}^m \gamma ( S_i ) $使扩展为编辑转换$ S = S_1 S_2 S_3 ... S_m $。
+
+符号序列X与Y之间的编辑距离为：
+\begin{equation}
+	\centering
+	\gamma ( X,Y ) = \min \left\{  \gamma ( S ) | S\ is\ the\ edit\ transform\ from\ X\ to\ Y \right\}
+\end{equation}
+
+表2-1给出了几个例子：
+\input{table/chap02_edit_distance}
+
+编辑距离算法的运行步骤如算法\ref{algo:sgd}：
+\begin{algorithm}[h]
+\KwIn{$2$个待对比的字符串$Str1$与$Str2$}
+\KwOut{相似度$\alpha$}
+\If{$Length1 = 0$} {
+  编辑距离$ EditDistance = Length2 $
 }
-\ForAll{层$l$}{
-	更新权重：$\mybold{W}^{(l)} \leftarrow \mybold{W}^{(l)} - \alpha \biggl[\frac 1m \Delta \mybold{W}^{(l)}]$ \\
-	\hspace{60pt} $\mybold{b}^{(l)} \leftarrow \mybold{b}^{(l)} - \alpha \biggl[\frac 1m \Delta \mybold{b}^{(l)}\biggr]$
+\If{$Length2 = 0$} {
+  编辑距离$ EditDistance = Length1 $
 }
-\caption{梯度下降算法}
+\If{$Length1 \not\equiv  0\ \&\&\ Length1 \not\equiv 0$} {
+  构造一个(Length1+1)，(Length2+1)大小的矩阵$DistanceMatrix$，矩阵的下标从$0$开始。
+
+	\ForAll{矩阵$DistanceMatrix$中的元素} {
+	  第$1$行与第$1$列从零开始，以步长为$1$递增的编号。
+	}
+	\For {each $i \in [1, rows\ of\ DistanceMatrix]$} {
+	  \For {each $j \in [1, columns\ of\ DistanceMatrix]$} {
+		  \If{$ Str1[i] = Str2[j] $} {
+		    $ Distance = 0 $
+		  }
+		  \If{$ Str1[i] \not\equiv Str2[j] $} {
+		    $ Distance = 1 $
+		  }
+		  $temp1 = DistanceMatrix[i-1, j] + 1$
+			$temp2 = DistanceMatrix[i, j-1] + 1$
+			$temp3 = DistanceMatrix[i-1, j-1] + Distance$
+			$ DistanceMatrix[i,j] = min\left( temp1, temp2, temp3 \right) $
+		}
+	}
+	编辑距离$ EditDistance = DistanceMatrix[Length1, Length2] $
+}
+相似度
+\begin{equation}
+  \centering
+  \alpha = 1 - \frac{EditDistance}{Max\left(Length1, Length2\right)}
+\end{equation}
+\caption{编辑距离算法\cite{dulifeng2011}}
 \label{algo:sgd}
 \end{algorithm}
 
-\section{其他的一些用法}
-\label{sec:font}
-这是一个列表
-\begin{itemize}
-	\item 引用文献\cite{long2015fully}
-	\item 字体{\color{red}{变红}}，\textbf{粗体}
-	\item 索引前面的章节 \ref{sec:formula}、图像\ref{fig:complex}、表格\ref{tab:siftflow}
-	\item 加脚注\footnote{http://cs231n.github.io/transfer-learning/}
-\end{itemize}
+编辑距离算法是一种传统的相似度比对算法，多用于搜索以及主观题的评测以及抄袭检查等应用场景，
+对于程序填空题这种答案变化性比较小的题目评测效果良好，特别是部分字符缺失或错误的答案。
+该算法的缺点是其具有语法无关性，
+对于执行等效的答案无法识别出等价性。
+在一些复杂的相似度比对上，对编辑距离的算法性能有更高
+的要求，因此也出现了各种编辑距离的算法优化，比如基于 q-gram 倒排索引的优化
+\cite{wangjinbao2015}。
 
+与文本类型的相似度匹配相关的算法还有基于属性论的相似度计算\cite{panqianhong1999}、
+基于语义分析的相似度计算\cite{Mihalcea2006Corpus}、基于机器学习的相似度识别\cite{Bilenko2003Adaptive}
+、基于语料库和字符串相似度的语义文本相似度计算\cite{islam2008semantic_24}\cite{mihalcea2006corpus_25}
+等算法。这些算法大多用于搜索引擎的关键词搜索以及人工智能的语句分析之中。
 
+\subsection{基于编译原理的匹配算法}
+对程序语言的语法特性，可采用编译原理的算法进行分析。
+编译原理除了用于编译程序外，还用于一些程序的自动分析和优化，程序竞
+赛的程序相似性检查\cite{Whale1990Identification}。通过词法分析和语法分析生成一定的信息结构数据，
+如程序的作用域树\cite{Colin2002Scope}、程序依赖图\cite{Krinke2001Identifying}等等。
+在程序填空题中，答案类型一般为语句和
+表达式，因此可以通过编译原理的词法和语法分析生成语法分析树进行关键的采分点
+比对\cite{wang1994system_17}。
+
+基本的算法伪代码如算法\ref{algo:syntax_match}
+
+\begin{algorithm}[h]
+  \KwIn{学生填空答案$answer$与标准答案$standardanswer2$}
+  \KwOut{相似度$\alpha$}
+	\caption{基于编译原理的匹配算法}
+	\label{algo:syntax_match}
+	对$answer$和$standardanswer$进行标准化处理
+
+  对$answer$和$standardanswer$进行词法分析和语法分析，生成语法分析树
+
+	对两棵语法分析树使用树匹配算法进行相似度计算，得出相似度$\alpha$。
+\end{algorithm}
+
+\subsubsection{语句的类型}
+语句的类型可以进行划分，以C语言为例，可以划分为:
+\begin{enumerate}
+  \item 表达式语句和空语句
+  \item 变量、函数等声明语句
+  \item 函数调用语句
+  \item 控制语句与其控制包含的(1)、(2)、(3)、(4)语句
+\end{enumerate}
+
+\subsubsection{基于语法分析树的语句处理}
+对于填入的答案和标准答案，在进行匹配之前，必须将标准答案以及待评答案
+转化为语法分析树的表现形式，并进行标准化减少语句多样性\cite{Hattori1996A}。
+
+\subsubsection{对语句的标准化}
+标准化是在指定的规则基础上，对提交答案和标准答案进行语义等价转换，目的
+是消除程序表达方式的多样性，统一标注进行对比。如变量定义语句、循环语句都有
+多种表达方式，标准化可以更好的对语句进行对比，减少语义的多样性。
+
+\subsubsection{对语法分析树的匹配评分}
+对标准答案和学生提交答案解析成语法分析树后，对两颗子树进行匹配。匹配的
+算法有许多，可以用上面所提到过的基于树的编辑距离算法，也有基于采分点的匹配
+算法。
+
+\subsubsection{对基于语法分析树的静态分析算法的评价}
+基于语法分析树的静态分析算法充分利用了程序题的语法特点，利用编译原理的
+语言分析将语句进行了语义化解析，使得比对更加准确科学。缺点是算法实现成本过
+高，生成语法分析树的规则、标准化的规则制定都需要大量的工作去检验其充分性，
+并且无法处理过于复杂的等价表达，如复杂的多项式等（如表达式(1+3)*(2+2+a)和表
+达式(0+4)*(1+3+0.5a+0.5a)的等价），对于更加复杂的表达式进行等价化的判断计算
+量过大）。该算法适合处理程序设计编程题的静态分析评测，但对于程序填空题来说，
+则显得过于复杂，性价比不高。
+
+\section{本章小结}
+本章介绍了可应用到程序填空自动评测的各种选型算法，包括动态测试和静态分析两方面的
+评测。
+在下一章会讲解
+本文的算法选型、评测算法以及算法在系统中的部署工作流程。
+
+\clearpage
+
+% \subsection{多张图像的并排插入}
+% \label{sub:多张图像的并排插入}
+% \input{figure/chap01_example}
+% \input{figure/chap04_improve.tex}
+
+% \subsection{两列图像的插入}
+% \label{sec:complex}
+% \input{figure/chap04_voc12_comparison}
+%
+% \clearpage
+%
+% \section{表格的插入}
+% \label{sec:tables}
+% \input{table/chap04_siftflow_result}
+% \input{table/chap04_voc_val}
+%
+% \section{公式}
+% \label{sec:formula}
+% 没有编号的公式
+% \begin{align*}
+% \begin{split}
+% 	\label{eq:feedforward}
+% 	\mybold{z}^{(l)} & = \mybold{W}^{(l)}\mybold{a}^{(l-1)} + \mybold{b}^{(l)} \\
+% 	\mybold{a}^{(l)} & = f(\mybold{z}^{(l)})
+% \end{split}
+% \end{align*}
+% 公式中含有中文
+% \begin{align}
+% 	\begin{split}
+% 	\mbox{像素准确率} &= \sum_{i=1}^{n_{cl}}n_{ii} / \sum_{i=1}^{n_{cl}}t_i \\
+% 		\mbox{平均像素准确率} &= \frac{1}{n_{cl}} \sum_{i=1}^{n_{cl}}(n_{ii}/ t_i) \\
+% 	\mbox{Mean IU} &= \frac{1}{n_{cl}} \sum_{i=1}^{n_{cl}}\frac{n_{ii}}{t_i + \sum_j^{n_{cl}} n_{ji} - n_{ii}}
+% 	\end{split}
+% \end{align}
+% 公式中含有矩阵
+% \begin{equation}
+% 	\textbf{H} = \begin{bmatrix}
+% 		I*\mybold{x}_i \\ \textbf{h}
+% 	\end{bmatrix}
+% \end{equation}
+% 每行后面都有编号的公式
+% \begin{align}
+% 	\frac{\partial}{\partial W_{ij}^{(l)}} J(\mybold{W},\mybold{b};\mybold{x},y) &= \frac{\partial J(\mybold{W},\mybold{b};\mybold{x},y)}{\partial z_i^{(l+1)}}\cdot \frac{\partial z_i^{(l+1)}}{\partial W_{ij}^{(l)}} = \delta_i^{(l+1)}a_j^{(l)} \\
+% 	\frac{\partial}{\partial b_i^{(l)}} J(\mybold{W},\mybold{b};\mybold{x},y) &= \frac{\partial J(\mybold{W},\mybold{b};\mybold{x},y)}{\partial z_i^{(l+1)}}\cdot \frac{\partial z_i^{(l+1)}}{\partial b_i^{(l)}} = \delta_i^{(l+1)}
+% \end{align}
+%
+% \section{算法流程图}
+% \label{sec:algorithm}
+% \begin{algorithm}[h]
+% \KwIn{$m$个训练样本}
+% \lFor{$l=1$ \emph{\KwTo} $n_l$}{
+% 初始化：$\Delta \mybold{W}^{(l)}=0$，$\Delta \mybold{b}^{(l)}=0$}
+% \ForEach{训练样本}{
+% 	\lFor{$l=1$ \emph{\KwTo} $n_l-1$}{
+% 	前向传播：$\mybold{z}^{(l+1)}=\mybold{W}^la^l+\mybold{b}^l$,$\mybold{a}^{(l+1)}=f(\mybold{z}^{(l+1)})$}
+% 	输出误差计算：$\delta^{(n_l)} = \frac{\partial}{\partial \mybold{z}^{(n_l)}} J(\mybold{W},\mybold{b};\mybold{x},y)$\;
+% 	\lFor{$l=n_l-1$ \emph{\KwTo} $1$}{
+% 	后向传播：$\delta^{(l)} = \bigl((\mybold{W}^{(l)})^T \delta^{(l+1)}\bigr)f'(\mybold{z}^{(l)})$}
+% 	\ForAll{层l}{
+% 		计算梯度：$\nabla_{\mybold{W}^{(l)}}J(\mybold{W},\mybold{b};\mybold{x},y)=\delta^{(l+1)}(\mybold{a}^{(l)})^T$ \\
+% 		\hspace{60pt}$\nabla_{\mybold{b}^{(l)}}J(\mybold{W},\mybold{b};\mybold{x},y)=\delta^{(l+1)}$\;
+% 		累加梯度：$\Delta \mybold{W}^{(l)} \leftarrow \Delta \mybold{W}^{(l)} + \nabla_{\mybold{W}^{(l)}}J(\mybold{W},\mybold{b};\mybold{x},y)$; \\
+% 		\hspace{60pt}$\Delta \mybold{b}^{(l)} \leftarrow \Delta \mybold{b}^{(l)} + \nabla_{\mybold{b}^{(l)}}J(\mybold{W},\mybold{b};\mybold{x},y)$\;
+% 	}
+% }
+% \ForAll{层$l$}{
+% 	更新权重：$\mybold{W}^{(l)} \leftarrow \mybold{W}^{(l)} - \alpha \biggl[\frac 1m \Delta \mybold{W}^{(l)}]$ \\
+% 	\hspace{60pt} $\mybold{b}^{(l)} \leftarrow \mybold{b}^{(l)} - \alpha \biggl[\frac 1m \Delta \mybold{b}^{(l)}\biggr]$
+% }
+% \caption{梯度下降算法}
+% \label{algo:sgd}
+% \end{algorithm}
+%
+% \section{其他的一些用法}
+% \label{sec:font}
+% 这是一个列表
+% \begin{itemize}
+% 	\item 引用文献\cite{long2015fully}
+% 	\item 字体{\color{red}{变红}}，\textbf{粗体}
+% 	\item 索引前面的章节 \ref{sec:formula}、图像\ref{fig:complex}、表格\ref{tab:siftflow}
+% 	\item 加脚注\footnote{http://cs231n.github.io/transfer-learning/}
+% \end{itemize}
